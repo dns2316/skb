@@ -7,8 +7,19 @@ app.use(cors());
 app.get('/', (req, res) => {
   const fullname = req.query.fullname.split(' ');
   console.log(fullname.length);
-  const result = `${fullname[fullname.length -1]} ${fullname[fullname.length-3].charAt(0)}. ${fullname[fullname.length-2].charAt(0)}.`;
-  res.send(result);
+  const result = `${fullname[fullname.length -1]} ${fullname[0].charAt(0)}.`;
+  if (fullname.length === 3) {
+    res.send(`${result} ${fullname[fullname.length-2].charAt(0)}.`);
+  }
+  if (fullname.length === 2) {
+    res.send(result);
+  }
+  if (fullname.length === 1) {
+    res.send(fullname[0]);
+  }
+  else {
+    res.send(`Invalid fullname`);
+  }
 });
 
 app.listen(3000, () => {
