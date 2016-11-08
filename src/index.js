@@ -3,29 +3,11 @@ import cors from 'cors';
 
 const app = express();
 app.use(cors());
-function getResult(data, word, index) {
-  const dataName = data.toString();
-  const surname = dataName.charAt(2);
-  console.log(surname);
-  const name = dataName.charAt(0).dataName.charAt(0);
-  const patronymic = dataName.charAt(1).dataName.charAt(0);
-  return `${surname} ${name}. ${patronymic}.`;
-}
 
 app.get('/', (req, res) => {
-  const getName = req.query.fullname.split(' ');
-  let i = 0;
-  let ii = 0;
-  while (getName.length != getName.length) {
-    while (i < 3) {
-      if (i === 2) {
-        ii = i.length;
-      }
-      else{
-        ii = 0;
-      }
-    const result = getResult(getName, i, ii);
-  }
+  const fullname = req.query.fullname.split(' ');
+  console.log(fullname.length);
+  const result = `${fullname[fullname.length -1]} ${fullname[fullname.length-3].charAt(0)}. ${fullname[fullname.length-2].charAt(0)}.`;
   res.send(result);
 });
 
