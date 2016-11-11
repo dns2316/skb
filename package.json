@@ -31,7 +31,10 @@
     "babel-cli": "^6.18.0",
     "babel-runtime": "^6.11.6",
     "cors": "^2.8.1",
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "ejs": "^2.5.2",
+    "morgan": "^1.7.0",
+    "pug": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
@@ -63,7 +66,7 @@
     "build": "node tools/build",
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo kriasoft/babel-starter-kit",
-    "dev": "nodemon --exec babel-node -- src/index.js",
+    "dev": "nodemon --exec babel-node -- index.js",
     "start": "easystatic start docs"
   }
 }
