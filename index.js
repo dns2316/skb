@@ -1,19 +1,43 @@
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import morgan from 'morgan';
 import pug from 'pug';
+import Promise from 'bluebird';
+import saveDataInDb from './src/saveDataInDb';
+import canonize from './src/canonize';
+
+// const mongoose = require('mongoose');
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://publickdb.mgbeta.ru/dns2316');
 
 const app = express();
 const path = require('path');
 const bug = function (variable) {
-  return '\nTipster told: ' + console.log(variable);
+  return console.log('\nTipster told: ' + variable);
 };
-let responceToHtml = 'hello world!';
 const logger = require('morgan');
 
 app.use(cors());
-app.use(express.static(path.join(__dirname + '.../view')));
+app.use(express.static(path.join(__dirname + '.../views')));
 app.use(morgan('dev'));
+
+const data = {
+  user: {
+    name: 'dns2316',
+  },
+  pets: [
+    {
+      name: 'Starhorse',
+      type: 'pokemon',
+    },
+    {
+      name: 'Pika4y',
+      type: 'pokemon',
+    },
+  ],
+};
+// saveDataInDb(data);
 
 // ******* code from https://github.com/iCoderXXI/skill-branch/commit/ff1cac53939622f9114d4d5d3d50953f0976c486
 const f2u = function(s) {
@@ -40,20 +64,12 @@ app.get('/2b', (req, res) => {
 // ******* end code from https://github.com/iCoderXXI/skill-branch/commit/ff1cac53939622f9114d4d5d3d50953f0976c486
 
 app.get('/2c', (req, res) => {
-  const re2c = new RegExp('^(.*username=)?@?(\w+:)?(\/\/)?(.+\.[^\/]*\/)?([^\/\?]+)(\/)?(\/?)?.*$');
-  const url = req.originalUrl;
-
-  // ******* method remove non-desired
-  // const newMethod = url.replace(/^username=/, ''.replace(/\*/, ''));
-  // bug(newMethod);
-  // ******* end method remove non-desired
-
-  // res.send('We got your request!');
-  // res.sendFile(path.join(__dirname + '/view/responce.html'));
-  const resNick = url.match(re2c)[5];
-  bug(resNick);
-  res.send ('@' + resNick);
+  const url = req.url;
+  console.log('url in index.js: ', url);
+  res.send (canonize(url));
+  console.log('res.send (canonize(url));');
 });
+
 app.listen(80, () => {
   console.log('App working on port 80!');
 });
